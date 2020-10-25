@@ -21,16 +21,19 @@ void Tick() {
 
     switch(state){
         case Start:
+           cntavail = 7;
            state = begin;
         break;
         case begin:
-           if((button_increment && !button_decrement) && (cntavail<9)){
+           if((button_increment) && (!button_decrement) && (cntavail<9)){
+             cntavail = cntavail +1;
              state = increment;
            }
            else if((!button_increment && button_decrement) && (cntavail>0)){
+             cntavail = cntavail - 1;
              state = decrement;
            }
-           else if((!button_increment && !button_decrement)){
+           else if((button_increment && button_decrement)){
              state = reset;
            }
            else{
@@ -39,14 +42,8 @@ void Tick() {
         break;
 
         case increment:
-           if((cntavail = 9)){
+           if(!button_increment){
              state = max;
-           }
-           else if((button_increment && !button_decrement) && (cntavail<9)){
-             state = increment;
-           }
-           else if((!button_increment && button_decrement) && (cntavail>0)){
-             state = decrement;
            }
            else if((button_increment && button_decrement)){
              state = reset;
@@ -57,26 +54,12 @@ void Tick() {
         break;
 
         case max:
-           if((!button_increment && !button_decrement) && (cntavail>0)){
-             state = decrement;
-           }
-           else if((button_increment && button_decrement)){
-             state = reset;
-           }
-           else{
-             state = max;
-           }
+             state = begin;
         break;
 
         case decrement:
-           if((cntavail == 0)){
+           if(!button_decrement){
              state = min;
-           }
-           else if((!button_increment && button_decrement) && (cntavail>0)){
-             state = decrement;
-           }
-            else if((button_increment && !button_decrement) && (cntavail<9)){
-             state = increment;
            }
            else if((button_increment && button_decrement)){
              state = reset;
@@ -87,24 +70,12 @@ void Tick() {
         break;
 
         case min:
-           if((button_increment && !button_decrement) && (cntavail<9)){
-             state = increment;
-           }
-           else if((button_increment && button_decrement)){
-             state = reset;
-           }
-           
-           else{
-             state = min;
-           }
+             state = begin;
         break;
 
         case reset:
-           if((button_increment && !button_decrement) && (cntavail<9)){
-             state = increment;
-           }
-           else if((!button_increment && button_decrement) && (cntavail>0)){
-             state = decrement;
+           if((!button_increment && !button_decrement)){
+             state = begin;
            }
            else{
              state = reset;
@@ -117,15 +88,13 @@ void Tick() {
     }
     switch(state){
         case Start:
-        break;
-        case begin:
            cntavail = 7;
         break;
+        case begin:
+        break;
         case increment:
-           cntavail = cntavail +1;
         break;
         case decrement:
-           cntavail = cntavail -1;
         break;
         case max:
         break;
