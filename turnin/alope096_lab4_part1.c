@@ -38,10 +38,10 @@ void Tick() {
         case Start:
         break;
         case buttonUnpressed:
-           button = 0x01;
+           led = 0x01;
         break;
         case buttonPressed:
-           button = 0x02;
+           led = 0x02;
         break;
         case ButtonReleased:
         break;
@@ -56,7 +56,7 @@ int main(void) {
     DDRA = 0x00; PORTA = 0xFF;
     DDRB = 0xFF; PORTB = 0x00;
    
-    PORTB =0x00;
+   
     
     state = Start;
 
