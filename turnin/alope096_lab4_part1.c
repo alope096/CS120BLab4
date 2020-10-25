@@ -12,11 +12,11 @@
 #include "simAVRHeader.h"
 #endif
 
-enum States{Start,buttonUnpressed,buttonPressed,ButtonReleased} state;
+enum States{Start,buttonUnpressed,buttonUnpressedOn,buttonPressed,ButtonReleased} state;
 
 void Tick() {
     unsigned char button = PINA & 0x01;
-    unsigned char led;
+    static unsigned char led;
     switch(state){
         case Start:
            state = buttonUnpressed;
@@ -28,7 +28,10 @@ void Tick() {
            state = button?buttonPressed:ButtonReleased;
         break;
         case ButtonReleased:
-           state = button?buttonUnpressed:ButtonReleased;
+           state = button?buttonUnpressedOn:ButtonReleased;
+        break;
+        case buttonUnpressedOn:
+           state = button?buttonUnpressedOn:buttonUnpressed;
         break;
         default:
            state = Start;
@@ -44,7 +47,9 @@ void Tick() {
            led = 0x02;
         break;
         case ButtonReleased:
-           led =0x02;
+        break;
+        case buttonUnpressedOn:
+           led = 0x01;
         break;
         default:
         break;
