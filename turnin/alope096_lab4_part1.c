@@ -44,6 +44,7 @@ void Tick() {
            led = 0x02;
         break;
         case ButtonReleased:
+           led =0x02;
         break;
         default:
         break;
